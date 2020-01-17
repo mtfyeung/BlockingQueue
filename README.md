@@ -8,6 +8,12 @@ Each [git commit](https://github.com/lemmy/BlockingQueue/commits/tutorial) intro
 
 --------------------------------------------------------------------------
 
+### v17 (TLAPS): TLAPS proves DeadLockFreedom.
+
+TLAPS has no problem proving DeadlockFreedom.
+
+![TLAPS proves IInv](./screencasts/v14-IInvWin.gif)
+
 ### v16 (TLAPS): Validating an inductive invariant candidate.
 
 Finding an inductive invariant is hard!  Fortunately, we can use TLC to - little by little - find and validate potential inductive invariants.  Some deeper thinking is at play too though:
