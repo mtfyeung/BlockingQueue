@@ -8,6 +8,28 @@ Each [git commit](https://github.com/lemmy/BlockingQueue/commits/tutorial) intro
 
 --------------------------------------------------------------------------
 
+### v08 (continue): Infer inequation under which the system is deadlock free.
+
+Based on the scaffolding in the two previous steps, we run TLC with the [```-continue```](https://lamport.azurewebsites.net/tla/tlc-options.html?back-link=tools.html) option to not stop state space exploration after a violation of the invariant has been found.  In other words, we ask TLC to find all violations, not just one of the shortest ones (Breadth-First search guarantees that TLC finds the shortest counterexample first).
+
+```bash
+java -jar /opt/TLA+Toolbox/tla2tools.jar -deadlock -continue BlockingQueue | grep InvVio | sort | uniq
+<<"InvVio", 1, 3>>
+<<"InvVio", 1, 4>>
+<<"InvVio", 1, 5>>
+<<"InvVio", 1, 6>>
+<<"InvVio", 1, 7>>
+<<"InvVio", 1, 8>>
+<<"InvVio", 2, 5>>
+<<"InvVio", 2, 6>>
+<<"InvVio", 2, 7>>
+<<"InvVio", 2, 8>>
+<<"InvVio", 3, 7>>
+<<"InvVio", 3, 8>>
+```
+
+A little bit of bashery trims TLC's output so that we - with some squinting -  notice that ```BlockingQueue``` is deadlock free iff ```2*BufCapacity >= Cardinality(Producers \cup Consumers)```.
+
 ### v07 (continue): Declare Producers and Consumers to be symmetry sets.
 
 The sets ```Producers``` and ```Consumers``` are symmetry sets for the ```BlockingQueue``` specification, meaning that permuting the elements in the sets does not change whether or not a behavior satisfies that behavior spec.  TLC can take advantage of this to reduce the number of (distinct) states it has to examine from 57254 to 1647!
